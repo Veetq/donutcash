@@ -4,6 +4,11 @@ import { buttonVariants } from '@/components/ui/button'
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
+      {/* soft green glow, purposeful backdrop */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-primary/20 blur-[120px]"
+      />
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 md:grid-cols-2 md:py-16">
         <div className="relative z-10">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">

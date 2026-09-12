@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Button } from '@/components/ui/button'
 import { CustomAmount } from '@/components/custom-amount'
 import { OrderHandoff } from '@/components/order-handoff'
@@ -89,7 +90,7 @@ export function Packages() {
           </div>
         </div>
       )}
-      {creatingOrder && <div className="order-modal-backdrop fixed inset-0 z-[100] grid h-[100dvh] w-screen place-items-center overflow-y-auto bg-background/80 p-4 backdrop-blur-sm" role="status" aria-live="polite"><div className="order-loading rounded-2xl border border-primary/30 bg-card px-8 py-7 text-center shadow-2xl"><div className="mx-auto mb-4 size-9 animate-spin rounded-full border-2 border-primary/25 border-t-primary" /><p className="font-display text-lg font-bold">Creating your order...</p><p className="mt-1 text-sm text-muted-foreground">Generating a secure order ID</p></div></div>}
+      {creatingOrder && typeof document !== 'undefined' && createPortal(<div className="order-loading-backdrop fixed inset-0 z-[100] grid h-[100dvh] w-screen place-items-center overflow-hidden bg-background/80 p-4 backdrop-blur-sm" role="status" aria-live="polite"><div className="order-loading rounded-2xl border border-primary/30 bg-card px-8 py-7 text-center shadow-2xl"><div className="mx-auto mb-4 size-9 animate-spin rounded-full border-2 border-primary/25 border-t-primary" /><p className="font-display text-lg font-bold">Creating your order...</p><p className="mt-1 text-sm text-muted-foreground">Generating a secure order ID</p></div></div>, document.body)}
       {orderCode && <OrderHandoff code={orderCode} onClose={() => setOrderCode(null)} />}
     </section>
   )

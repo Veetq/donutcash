@@ -28,11 +28,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark bg-background ${inter.variable} ${sora.variable}`}>
       <body className="antialiased font-sans">
-        <div className="ambient-bg" aria-hidden="true">
-          <div className="ambient-blob ambient-blob--one" />
-          <div className="ambient-blob ambient-blob--two" />
-          <div className="ambient-blob ambient-blob--three" />
-        </div>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
