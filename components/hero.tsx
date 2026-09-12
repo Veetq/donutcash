@@ -64,7 +64,7 @@ export function Hero() {
         <div className="relative z-10">
           <div className="relative mx-auto aspect-square max-w-md rounded-3xl border border-border bg-card/60 p-6">
             <Image
-              src="/donutcash/images/cash-stack.png"
+              src="/images/cash-stack.png"
               alt="A stack of cash representing DonutSMP in-game money"
               width={640}
               height={640}
