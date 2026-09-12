@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CustomAmount } from '@/components/custom-amount'
 import { OrderHandoff } from '@/components/order-handoff'
@@ -26,6 +26,13 @@ export function Packages() {
   const [creatingOrder, setCreatingOrder] = useState(false)
   const spawnerDiscount = Math.min(30, Math.max(0, Math.round(((spawners - 20) / 80) * 30)))
   const spawnerPrice = spawners * 0.4 * (1 - spawnerDiscount / 100)
+  useEffect(() => {
+    if (!creatingOrder) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = previousOverflow }
+  }, [creatingOrder])
+
   function createOrder(productType: Product, quantity: number) {
     setCreatingOrder(true)
     setOrderCode(null)
