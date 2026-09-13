@@ -136,6 +136,14 @@ body::before {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.faq-reveal > div:first-child { animation: faq-heading-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.faq-answer { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 350ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease; }
+.faq-answer > p { min-height: 0; overflow: hidden; }
+.group[open] .faq-answer { grid-template-rows: 1fr; opacity: 1; }
+.faq-reveal > div:last-child { animation: faq-panel-in 800ms 120ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes faq-heading-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes faq-panel-in { from { opacity: 0; transform: translateY(28px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

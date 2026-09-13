@@ -4,7 +4,6 @@ import { buttonVariants } from '@/components/ui/button'
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
-      {/* soft green glow, purposeful backdrop */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-primary/20 blur-[120px]"

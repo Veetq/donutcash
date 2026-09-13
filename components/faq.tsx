@@ -19,7 +19,7 @@ const FAQS = [
 
 export function Faq() {
   return (
-    <section id="faq" className="mx-auto max-w-3xl scroll-mt-20 px-4 py-12 md:py-16">
+    <section id="faq" className="faq-reveal mx-auto max-w-3xl scroll-mt-20 px-4 py-12 md:py-16">
       <div className="animate-product-in text-center">
         <h2 className="font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
           Frequently asked questions
@@ -35,7 +35,7 @@ export function Faq() {
                 +
               </span>
             </summary>
-            <p className="pb-5 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
+            <div className="faq-answer"><p className="pb-5 text-sm leading-relaxed text-muted-foreground">{item.a}</p></div>
           </details>
         ))}
       </div>

@@ -17,6 +17,9 @@ export function SiteHeader() {
           <a href="#packages" className="transition-colors hover:text-foreground">
             Packages
           </a>
+          <a href="#features" className="transition-colors hover:text-foreground">
+            Features
+          </a>
           <a href="#how" className="transition-colors hover:text-foreground">
             How it works
           </a>

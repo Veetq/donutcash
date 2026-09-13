@@ -6,6 +6,7 @@ import { Faq } from '@/components/faq'
 import { SiteFooter } from '@/components/site-footer'
 import { TrustSection } from '@/components/trust-section'
 import { Reviews } from '@/components/reviews'
+import { WhyUs } from '@/components/why-us'
 
 export default function Page() {
   return (
@@ -13,6 +14,7 @@ export default function Page() {
       <SiteHeader />
       <main>
         <Hero />
+        <WhyUs />
         <Packages />
         <TrustSection />
         <HowItWorks />

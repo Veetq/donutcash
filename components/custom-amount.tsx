@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   discountFor,
@@ -10,7 +10,6 @@ import {
   MIN_M,
   money,
   salePrice,
-  STEP_M,
 } from '@/lib/pricing'
 
 export function CustomAmount({
@@ -18,8 +17,16 @@ export function CustomAmount({
 }: {
   onBuy: (amountM: number) => void
 }) {
-  const [amountM, setAmountM] = useState(1000)
+  const [amountInput, setAmountInput] = useState('1b')
 
+  const parsedAmountM = useMemo(() => {
+    const match = amountInput.trim().toLowerCase().match(/^(\d+(?:\.\d+)?)\s*(m|b)?$/)
+    if (!match) return null
+    const value = Number(match[1])
+    const amountM = match[2] === 'b' ? value * 1000 : value
+    return amountM >= MIN_M && amountM <= 10000 ? amountM : null
+  }, [amountInput])
+  const amountM = parsedAmountM ?? 1000
   const price = money(salePrice(amountM))
   const was = money(fullPrice(amountM))
   const pct = Math.round(discountFor(amountM) * 100)
@@ -31,6 +38,10 @@ export function CustomAmount({
           -{pct}%
         </span>
       </div>
+
+      <label htmlFor="custom-money-amount" className="mt-5 text-sm font-semibold text-foreground">Your amount</label>
+      <input id="custom-money-amount" type="text" inputMode="decimal" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} placeholder="10m or 1b" aria-describedby="custom-money-error" className="mt-2 rounded-lg border border-input bg-background px-3 py-2 text-sm font-semibold outline-none transition-colors focus:border-primary" />
+      {amountInput.trim() && parsedAmountM === null && <p id="custom-money-error" className="mt-2 text-xs font-medium text-destructive">Enter an amount from 50M to 10B, such as 250, 10m, or 2b.</p>}
 
       <div className="mt-4 font-display text-4xl font-bold tracking-tight">
         {formatAmount(amountM)}
@@ -44,24 +55,7 @@ export function CustomAmount({
         <span className="mb-1 text-sm text-muted-foreground line-through">${was}</span>
       </div>
 
-      <div className="mt-5">
-        <input
-          type="range"
-          min={MIN_M}
-          max={MAX_M}
-          step={STEP_M}
-          value={amountM}
-          onChange={(e) => setAmountM(Number(e.target.value))}
-          aria-label="Choose how much money to buy"
-          className="w-full accent-primary"
-        />
-        <div className="mt-1 flex justify-between text-xs text-muted-foreground">
-          <span>{formatAmount(MIN_M)}</span>
-          <span>{formatAmount(MAX_M)}</span>
-        </div>
-      </div>
-
-      <Button className="mt-5 w-full font-semibold" onClick={() => onBuy(amountM)}>
+      <Button className="mt-5 w-full font-semibold" onClick={() => parsedAmountM !== null && onBuy(parsedAmountM)} disabled={parsedAmountM === null}>
         Buy {formatAmount(amountM)}
       </Button>
     </div>

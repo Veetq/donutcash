@@ -1,16 +1,10 @@
-// Pricing model for DonutSMP money.
-// 1B is always $20, which represents the maximum 30% discount.
-// Full (pre-discount) rate is therefore $20 / 0.7 = ~$28.571 per 1B.
+export const FULL_RATE_PER_B = 20 / 0.7
+export const FULL_RATE_PER_M = FULL_RATE_PER_B / 1000
 
-export const FULL_RATE_PER_B = 20 / 0.7 // ~28.571 USD per 1B before discount
-export const FULL_RATE_PER_M = FULL_RATE_PER_B / 1000 // per million
-
-export const MIN_M = 50 // 50M minimum
-export const MAX_M = 5000 // 5B maximum
+export const MIN_M = 50
+export const MAX_M = 10000
 export const STEP_M = 50
 
-// Discount grows with the amount and caps at 30%.
-// Named tiers: 100M = 10%, 500M = 20%, 1B = 30% (and above).
 const CURVE: [number, number][] = [
   [0, 0],
   [100, 0.1],
@@ -40,7 +34,7 @@ export function salePrice(amountM: number): number {
   return fullPrice(amountM) * (1 - discountFor(amountM))
 }
 
-// Round to a clean cent value for display/charging.
+
 export function money(n: number): number {
   return Math.round(n * 100) / 100
 }
