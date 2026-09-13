@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { CustomAmount } from '@/components/custom-amount'
 import { OrderHandoff } from '@/components/order-handoff'
 import { discountFor, formatAmount, fullPrice, money, salePrice } from '@/lib/pricing'
+import { STORE_STOCK } from '@/lib/store-config'
 
 const SPAWNER_IMAGE = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/skeleton-spawner-cbK553xjE3H0jzkko7pHIJEmCWfQ3K.png'
 
@@ -52,22 +53,30 @@ export function Packages() {
         <p className="mt-3 text-muted-foreground">Choose DonutSMP money or spawners, then message us on Discord to complete your order.</p>
       </div>
 
-      <div className="mx-auto mt-8 flex max-w-md rounded-xl border border-border bg-card p-1">
-        {(['money', 'spawners'] as Product[]).map((item) => (
-          <button key={item} type="button" onClick={() => setProduct(item)} className={`flex-1 rounded-lg px-4 py-3 text-sm font-semibold capitalize transition-all duration-300 ${product === item ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-            {item === 'money' ? 'DonutSMP Money' : 'Spawners'}
-          </button>
-        ))}
+      <div className="mx-auto mt-8 max-w-md">
+        <div className="relative flex rounded-xl border border-border bg-card p-1">
+          <span className={`absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-lg bg-primary shadow-sm transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${product === 'spawners' ? 'translate-x-full' : 'translate-x-0'}`} aria-hidden="true" />
+          {(['money', 'spawners'] as Product[]).map((item) => (
+            <button key={item} type="button" onClick={() => setProduct(item)} className={`relative z-10 flex-1 rounded-lg px-4 py-3 text-sm font-semibold capitalize transition-colors duration-300 ${product === item ? 'text-primary-foreground' : 'text-muted-foreground'}`}>
+              {item === 'money' ? 'DonutSMP Money' : 'Spawners'}
+            </button>
+          ))}
+        </div>
+        <div className={`grid transition-[grid-template-rows,opacity,margin] duration-500 ease-out ${product === 'money' ? 'mt-3 grid-rows-[1fr] opacity-100' : 'mt-0 grid-rows-[0fr] opacity-0'}`} aria-hidden={product !== 'money'}>
+          <div className="overflow-hidden">
+            <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm"><span className="size-2 animate-pulse rounded-full bg-primary shadow-[0_0_12px_currentColor]" /><span className="font-semibold text-primary">{STORE_STOCK.moneyM.toLocaleString()}M in stock</span><span className="text-muted-foreground">available across money packages</span></div>
+          </div>
+        </div>
       </div>
 
       {product === 'money' ? (
-        <>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div key="money" className="animate-product-in">
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {PACKAGES.map((pkg) => {
               const price = money(salePrice(pkg.amountM)); const was = money(fullPrice(pkg.amountM)); const pct = Math.round(discountFor(pkg.amountM) * 100)
-              return <div key={pkg.id} className={`relative flex flex-col rounded-2xl border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${pkg.popular ? 'border-primary/60' : 'border-border hover:border-primary/40'}`}>
+              return <div key={pkg.id} className={`interactive-card relative flex flex-col rounded-2xl border bg-card p-6 ${pkg.popular ? 'border-primary/60' : 'border-border hover:border-primary/40'}`}>
                 {pkg.popular && <span className="absolute -top-3 left-6 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground">Most popular</span>}
-                <div className="flex items-center justify-between"><span className="text-sm font-medium text-muted-foreground">{pkg.label}</span><span className="rounded-md bg-accent/15 px-2 py-0.5 text-xs font-bold text-accent">-{pct}%</span></div>
+                <div className="flex items-center justify-between gap-2"><span className="text-sm font-medium text-muted-foreground">{pkg.label}</span><div className="mt-2 flex justify-end"><span className="rounded-md bg-accent/15 px-2 py-0.5 text-xs font-bold text-accent">-{pct}%</span></div></div>
                 <div className="mt-4 font-display text-4xl font-bold tracking-tight">{formatAmount(pkg.amountM)}<span className="ml-1 align-middle text-base font-medium text-muted-foreground">money</span></div>
                 <div className="mt-4 flex items-end gap-2"><span className="font-display text-3xl font-bold text-primary">${price}</span><span className="mb-1 text-sm text-muted-foreground line-through">${was}</span></div>
                 <Button className="mt-6 w-full font-semibold transition-transform hover:scale-[1.02]" onClick={() => createOrder('money', pkg.amountM)} disabled={creatingOrder}>Buy {formatAmount(pkg.amountM)}</Button>
@@ -75,11 +84,11 @@ export function Packages() {
             })}
             <CustomAmount onBuy={(amountM) => createOrder('money', amountM)} />
           </div>
-        </>
+        </div>
       ) : (
-        <div className="mx-auto mt-12 grid max-w-3xl gap-6 overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[0.9fr_1.1fr]">
+        <div className="interactive-card mx-auto mt-12 grid max-w-3xl gap-6 overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[0.9fr_1.1fr]">
           <div className="flex items-center justify-center bg-background/60 p-8"><img src={SPAWNER_IMAGE} alt="Minecraft spawner" className="float-soft h-56 w-56 object-contain drop-shadow-[0_18px_28px_rgba(20,184,166,0.22)] transition-transform duration-500 hover:scale-105" /></div>
-          <div className="p-6 md:p-8"><p className="text-sm font-medium text-muted-foreground">Skeleton Spawner</p><h3 className="mt-2 font-display text-3xl font-bold">Build your spawner stack</h3><p className="mt-3 text-sm text-muted-foreground">Better value on bigger orders.</p>
+          <div className="p-6 md:p-8"><div className="flex items-center justify-between gap-3"><p className="text-sm font-medium text-muted-foreground">Skeleton Spawner</p><span className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">{STORE_STOCK.spawners} in stock</span></div><h3 className="mt-2 font-display text-3xl font-bold">Build your spawner stack</h3><p className="mt-3 text-sm text-muted-foreground">Better value on bigger orders.</p>
             <div className="mt-6 flex items-end justify-between"><div><span className="font-display text-4xl font-bold text-primary">{spawners}</span><span className="ml-2 text-muted-foreground">spawner{spawners === 1 ? '' : 's'}</span></div><div className="text-right"><span className="mb-1 inline-block rounded-md bg-accent/15 px-2 py-0.5 text-xs font-bold text-accent">-{spawnerDiscount}%</span><span className="block font-display text-3xl font-bold">${spawnerPrice.toFixed(2)}</span></div></div>
             <div className="mt-6 flex items-center gap-3">
               <input type="range" min="1" max="500" step="1" value={spawners} onInput={(e) => setSpawners(Number(e.currentTarget.value))} onChange={(e) => setSpawners(Number(e.currentTarget.value))} aria-label="Choose number of spawners" className="h-2 min-w-0 flex-1 cursor-pointer accent-primary" />

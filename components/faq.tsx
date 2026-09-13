@@ -20,13 +20,13 @@ const FAQS = [
 export function Faq() {
   return (
     <section id="faq" className="mx-auto max-w-3xl scroll-mt-20 px-4 py-12 md:py-16">
-      <div className="text-center">
+      <div className="animate-product-in text-center">
         <h2 className="font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
           Frequently asked questions
         </h2>
       </div>
 
-      <div className="mt-10 divide-y divide-border rounded-2xl border border-border bg-card">
+      <div className="animate-product-in mt-10 divide-y divide-border rounded-2xl border border-border bg-card">
         {FAQS.map((item) => (
           <details key={item.q} className="group px-6 [&_summary::-webkit-details-marker]:hidden">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-medium">

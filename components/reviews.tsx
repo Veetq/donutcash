@@ -1,10 +1,10 @@
 const REVIEWS = [
-  { name: 'Jax', rating: 5, text: 'Fast and easy.' },
-  { name: 'Milo', rating: 5, text: 'Got my money, no stress.' },
-  { name: 'Kira', rating: 4, text: 'Quick reply and smooth deal.' },
-  { name: 'Nova', rating: 5, text: 'Good prices. Would buy again.' },
-  { name: 'Ash', rating: 4, text: 'Simple process, friendly seller.' },
-  { name: 'Rex', rating: 5, text: 'Spawners arrived right on time.' },
+  { name: 'k****o', rating: 5, text: 'nice service w' },
+  { name: 'o****a', rating: 4, text: 'fast and cheapest nice' },
+  { name: 'r******2', rating: 5, text: 'wtf w they did not scam me lol' },
+  { name: '.**********G', rating: 5, text: 'nice and fast' },
+  { name: 'e*******g', rating: 4, text: 'this was the cheapest money ive ever got, neat service bro' },
+  { name: 'g******o', rating: 5, text: 'ight i liked it' },
 ]
 
 function Stars({ rating }: { rating: number }) {
