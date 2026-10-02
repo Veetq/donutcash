@@ -1,0 +1,4 @@
+spawnerstock=223
+moneystock=2.3b
+moneyoutofstock=false
+spawneroutofstock=false
